@@ -1,0 +1,2 @@
+# WordReferenceAutoSort
+使用python实现word文档参考文献的自动排序
