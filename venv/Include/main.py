@@ -2,7 +2,7 @@
 """main方法
 
 """
-__author__ = "bjx"
+__author__ = "闭锦秀"
 
 import gui
 
