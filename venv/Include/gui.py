@@ -32,12 +32,17 @@ def choose_output_path(file_output_entry):
 # 提交路径开始处理文档
 def submit(file_input_path):
     try:
+        # 读取文档
         document = docx_process.create_document(file_input_path)
+        # 参考文献索引排序
         docx_process.index_sort(document)
+        # 参考文献列表排序
         docx_process.quote_sort(document)
-        print(file_output_path)
+        # 保存到输出路径
         docx_process.docx_save(document, file_output_path + "/结果.docx")
+        # 自动打开输出路径
         os.startfile(file_output_path)
+        # 替换提示语
         result_variable.set("已完成, 已为你打开输出文件夹")
 
     except docx.opc.exceptions.PackageNotFoundError:

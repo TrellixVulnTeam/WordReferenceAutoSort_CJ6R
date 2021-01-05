@@ -34,11 +34,15 @@ def index_sort(document):
             font_name = paragraph.runs[0].font.name
             # 判断这一段中的引用个数是不是>1, 如果>1, 则逐句拆开进行修改
             if len(indexs) == 1:
-                # 获取原文中引用的标号
+                # 获取原文中引用的标号, 这里是提取中括号中的标号
                 indexNum = indexs[0][1][1:-1]
+                # 修改前的标号
                 old = "[" + str(indexNum) + "]"
+                # 修改后的标号
                 new = "[" + str(num) + "]"
+                # 替换
                 paragraph.text = paragraph.text.replace(old, new)
+                # 将更新好的段落添加到字典
                 indexDir[indexNum] = paragraph
                 num += 1
             elif len(indexs) > 1:
@@ -69,9 +73,9 @@ def quote_sort(document):
     font_size = None
     font_name = None
 
-    # 遍历段落, 查找参考文献
+    # 遍历段落, 查找参考文献列表
     for p in document.paragraphs:
-        flag = re.match(r"^(\[\d+\])", p.text)
+        flag = re.match(r"^(\[\d+\])(\w)+", p.text)
         if flag:
             quotesDir[flag.group()[1:-1]] = p
             font_name = p.runs[0].font.name
@@ -81,6 +85,7 @@ def quote_sort(document):
     quotesDirCopy = copy.deepcopy(quotesDir)
     # 设定一个num, 记录参考文献原本的序号
     num = 1
+    # 遍历正文索引, 找到对应的参考文献, 进行标号替换
     for indexKey in indexDir:
         quotesDir[str(num)].text = quotesDirCopy[indexKey].text
         quotesDir[str(num)].text = re.sub("\[\d\]", "[" + str(num) + "]", quotesDir[str(num)].text)
@@ -107,6 +112,7 @@ def docx_save(document, save_path):
 
 # 修改字体
 def repair_font_size(paragraph, font_name, font_size):
+    # 遍历每个run, 更新为原文的字体和字号
     for run in paragraph.runs:
         run.font.name = font_name
         run.font.size = font_size
