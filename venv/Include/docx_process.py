@@ -28,6 +28,7 @@ def index_sort(document):
     for paragraph in document.paragraphs:
         # 获取正文中的引用
         indexs = re.findall(r"(\w)+(\[\d+\])", paragraph.text)
+        # 获取有索引的段落, 进行操作, 没有索引的段落忽略
         if len(indexs) >= 1:
             # 获取本段的字体
             font_size = paragraph.runs[0].font.size
@@ -75,7 +76,8 @@ def quote_sort(document):
 
     # 遍历段落, 查找参考文献列表
     for p in document.paragraphs:
-        flag = re.match(r"^(\[\d+\])(\w)+", p.text)
+        flag = re.match(r"^(\[\d+\])", p.text)
+        # 获取原文的字体和字号
         if flag:
             quotesDir[flag.group()[1:-1]] = p
             font_name = p.runs[0].font.name

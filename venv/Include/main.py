@@ -6,8 +6,6 @@ __author__ = "闭锦秀"
 
 import gui
 
-
-
 def main():
     gui.gui_main()
 

@@ -2,27 +2,30 @@
 """用户界面"""
 __author__ = "闭锦秀"
 
+# 操作系统库
 import os
+
 import tkinter
+import traceback
 from tkinter import filedialog
 from tkinter import StringVar
+
 import docx
 import docx_process
-import traceback
 
 # 输入/输出文档路径
 file_input_path = None
 file_output_path = None
 
 
-# click chooseFile button
+# 点击输入选择文件路径按钮事件
 def choose_input_file(file_input_entry):
     global file_input_path
     file_input_path = tkinter.filedialog.askopenfilename()
     input_variable.set(file_input_path)
 
 
-# click choose output path button
+# 点击输出文件路径
 def choose_output_path(file_output_entry):
     global file_output_path
     file_output_path = tkinter.filedialog.askdirectory()
@@ -51,8 +54,10 @@ def submit(file_input_path):
         result_variable.set("错误! 请检查输出路径是否存在!!")
     except PermissionError:
         result_variable.set("错误! 输出目录权限不足, 或请检查输出目录是否有同名文件正在使用, 请关闭后重试!!")
-    except BaseException:
+    except BaseException as e:
         result_variable.set("未知错误!!")
+        # traceback.print_exc()
+
     else:
         result_variable.set("已完成, 已为你打开输出文件夹")
 
@@ -111,7 +116,7 @@ def gui_main():
                                                command=lambda: choose_output_path(file_output_entry))
     file_output_choose_button.pack(side=tkinter.LEFT, padx=5)
 
-    # submit Button
+    # 提交按钮
     file_input_submit_button = tkinter.Button(window, text="开始执行", font=30, width=20,height=2, \
                                               command=lambda: submit(file_input_path))
     file_input_submit_button.pack(side=tkinter.TOP, padx=5)
