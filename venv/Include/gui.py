@@ -34,46 +34,33 @@ def choose_output_path(file_output_entry):
 
 # 提交路径开始处理文档
 def submit(file_input_path):
-    # 读取文档
-    document = docx_process.create_document(file_input_path)
-    # 获取参考文献列表
-    docx_process.quote_get(document)
-    # 参考文献索引排序
-    docx_process.index_sort(document)
-    # 参考文献列表索引排序
-    docx_process.quote_sort()
-    # 保存到输出路径
-    docx_process.docx_save(document, file_output_path + "/结果.docx")
-    # 自动打开输出路径
-    os.startfile(file_output_path)
-    # 替换提示语
-    result_variable.set("已完成, 已为你打开输出文件夹")
-    # try:
-    #     # 读取文档
-    #     document = docx_process.create_document(file_input_path)
-    #     # 参考文献索引排序
-    #     docx_process.index_sort(document)
-    #     # 参考文献列表排序
-    #     docx_process.quote_sort(document)
-    #     # 保存到输出路径
-    #     docx_process.docx_save(document, file_output_path + "/结果.docx")
-    #     # 自动打开输出路径
-    #     os.startfile(file_output_path)
-    #     # 替换提示语
-    #     result_variable.set("已完成, 已为你打开输出文件夹")
-    #
-    # except docx.opc.exceptions.PackageNotFoundError:
-    #     result_variable.set("错误! 请检查输入文件以及格式(.docx)是否正确!")
-    # except TypeError:
-    #     result_variable.set("错误! 请检查输出路径是否存在!!")
-    # except PermissionError:
-    #     result_variable.set("错误! 输出目录权限不足, 或请检查输出目录是否有同名文件正在使用, 请关闭后重试!!")
-    # except BaseException as e:
-    #     result_variable.set("未知错误!!")
-    #     # traceback.print_exc()
-    #
-    # else:
-    #     result_variable.set("已完成, 已为你打开输出文件夹")
+    try:
+        # 读取文档
+        document = docx_process.create_document(file_input_path)
+        # 获取参考文献列表
+        docx_process.quote_get(document)
+        # 参考文献索引排序
+        docx_process.index_sort(document)
+        # 参考文献列表索引排序
+        docx_process.quote_sort()
+        # 保存到输出路径
+        docx_process.docx_save(document, file_output_path + "/结果.docx")
+        # 自动打开输出路径
+        os.startfile(file_output_path)
+        # 替换提示语
+        result_variable.set("已完成, 已为你打开输出文件夹")
+    except docx.opc.exceptions.PackageNotFoundError:
+        result_variable.set("错误! 请检查输入文件以及格式(.docx)是否正确!")
+    except TypeError:
+        result_variable.set("错误! 请检查输出路径是否存在!!")
+    except PermissionError:
+        result_variable.set("错误! 输出目录权限不足, 或请检查输出目录是否有同名文件正在使用, 请关闭后重试!!")
+    except BaseException as e:
+        result_variable.set("未知错误!!")
+        # traceback.print_exc()
+
+    else:
+        result_variable.set("已完成, 已为你打开输出文件夹")
 
 
 def gui_main():

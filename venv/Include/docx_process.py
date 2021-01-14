@@ -129,7 +129,6 @@ def quote_sort():
         quotesDir[quoteIndex].text = quotesDirCopy[indexKey].text
 
     # 删除多余的索引, 并且按照参考文献标号调整顺序
-    # quotesDirCopy = copy.deepcopy(quotesDir)
     num = 0
     for key in quotesDir:
         num += 1
